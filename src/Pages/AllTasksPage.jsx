@@ -12,7 +12,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
   const [pageIsLoading, setPageIsLoading] = useState(true);
   
     useEffect(() => {
-      const timer = setTimeout(() => setPageIsLoading(false), 3000);
+      const timer = setTimeout(() => setPageIsLoading(false), 2000);
       return () => clearTimeout(timer);
     }, []);
   
