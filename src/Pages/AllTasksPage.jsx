@@ -1,12 +1,25 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import NavBar from "../Components/NavBar";
 import { IoMdAdd } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
+import { HashLoader } from "react-spinners"
 
 export default function AllTasksPage({ tasks, deleteTask }) {
   const navigate = useNavigate();
+
+  const [pageIsLoading, setPageIsLoading] = useState(true);
+  
+    useEffect(() => {
+      const timer = setTimeout(() => setPageIsLoading(false), 3000);
+      return () => clearTimeout(timer);
+    }, []);
+  
+    if (pageIsLoading) return <div className='flex flex-col mx-auto items-center justify-center h-screen'>
+        <HashLoader color="#974FD0" size={55} />
+        <p className='text-[18px] lg:text-[30px] pt-2 font-semibold text-[#974FD0]'>Loading...</p>
+      </div>
   
   const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });

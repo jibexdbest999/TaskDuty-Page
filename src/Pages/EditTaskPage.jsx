@@ -3,6 +3,7 @@ import NavBar from "../Components/NavBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { IoChevronDown } from "react-icons/io5";
+import { HashLoader } from "react-spinners";
 
 export default function EditTaskPage({ tasks, updateTask }) {
   const { id } = useParams();
@@ -14,6 +15,13 @@ export default function EditTaskPage({ tasks, updateTask }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState(null);
+
+  const [pageIsLoading, setPageIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setPageIsLoading(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!tasks) return;
@@ -47,6 +55,16 @@ export default function EditTaskPage({ tasks, updateTask }) {
 
     navigate("/mytask");
   };
+
+  if (pageIsLoading)
+    return (
+      <div className="flex flex-col mx-auto items-center justify-center h-screen">
+        <HashLoader color="#974FD0" size={55} />
+        <p className="text-[18px] lg:text-[30px] pt-2 font-semibold text-[#974FD0]">
+          Loading...
+        </p>
+      </div>
+    );
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -134,9 +152,9 @@ export default function EditTaskPage({ tasks, updateTask }) {
           </button>
         </form>
 
-        <button 
-        onClick={scrollToTop}
-        className="text-[#974FD0] mt-5">Back To Top</button>
+        <button onClick={scrollToTop} className="text-[#974FD0] mt-5">
+          Back To Top
+        </button>
       </div>
     </div>
   );

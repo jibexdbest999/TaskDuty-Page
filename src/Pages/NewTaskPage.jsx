@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../Components/NavBar";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { IoChevronDown } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { HashLoader } from "react-spinners"
 
 export default function NewTaskPage({ addTask }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState(null);
+
+  const [pageIsLoading, setPageIsLoading] = useState(true);
+  
+    useEffect(() => {
+      const timer = setTimeout(() => setPageIsLoading(false), 3000);
+      return () => clearTimeout(timer);
+    }, []);
 
   const options = ["Urgent", "Important"];
   const [open, setOpen] = useState(false);
@@ -36,6 +44,11 @@ export default function NewTaskPage({ addTask }) {
 
     navigate("/mytask");
   };
+
+  if (pageIsLoading) return <div className='flex flex-col mx-auto items-center justify-center h-screen'>
+        <HashLoader color="#974FD0" size={55} />
+        <p className='text-[18px] lg:text-[30px] pt-2 font-semibold text-[#974FD0]'>Loading...</p>
+      </div>
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
