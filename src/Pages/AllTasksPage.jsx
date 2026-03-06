@@ -72,7 +72,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
                   </button>
                   <button
                     onClick={() => {
-                      if (window.confirm("Delete this task?")) {
+                      if (window.confirm("Are you sure you want to delete this task?")) {
                         deleteTask(task.id);
                       }
                     }}
