@@ -26,7 +26,7 @@ export default function Body() {
       </div>
 
       <div className="hidden md:block">
-        <img className="w-350 h-100" src={AddTaskImage} alt="" />
+        <img className="w-350 h-85" src={AddTaskImage} alt="" />
       </div>
      </div>
     </div>
