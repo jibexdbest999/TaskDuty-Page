@@ -8,7 +8,7 @@ import { HashLoader } from "react-spinners"
 
 export default function AllTasksPage({ tasks, deleteTask }) {
   const navigate = useNavigate();
-
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [pageIsLoading, setPageIsLoading] = useState(true);
   
     useEffect(() => {
@@ -20,6 +20,12 @@ export default function AllTasksPage({ tasks, deleteTask }) {
         <HashLoader color="#974FD0" size={55} />
         <p className='text-[18px] lg:text-[30px] pt-2 font-semibold text-[#974FD0]'>Loading...</p>
       </div>
+
+  const filteredTasks = tasks.filter((task) => {
+    if (!categoryFilter) return true;
+
+  return task.category === categoryFilter;
+  });
   
   const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -40,12 +46,23 @@ export default function AllTasksPage({ tasks, deleteTask }) {
           </Link>
         </div>
 
+    <select
+      value={categoryFilter}
+      onChange={(e) => setCategoryFilter(e.target.value)}
+      className="border border-purple-600 w-[95px] py-1 px-1 rounded text-gray-500 mt-5"
+    >
+    <option value="">Filter by:</option>
+    <option value="Work">Work</option>
+    <option value="Personal">Personal</option>
+    <option value="Urgent">Urgent</option>
+  </select>
+
         <div className="mt-6 flex flex-col gap-6">
           {tasks.length === 0 && (
             <p className="text-[#B8B6B6] text-center text-[25px] md:text-[35px]">No tasks yet.</p>
           )}
 
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <div
               key={task.id}
               className="border border-[#B8B6B6] rounded-md py-3"

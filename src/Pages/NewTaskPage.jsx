@@ -9,6 +9,7 @@ import { HashLoader } from "react-spinners"
 export default function NewTaskPage({ addTask }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [selected, setSelected] = useState(null);
 
   const [pageIsLoading, setPageIsLoading] = useState(true);
@@ -18,7 +19,7 @@ export default function NewTaskPage({ addTask }) {
       return () => clearTimeout(timer);
     }, []);
 
-  const options = ["Urgent", "Important"];
+  const options = ["Work", "Personal", "Urgent"];
   const [open, setOpen] = useState(false);
 
   const toggleTag = (tag) => {
@@ -31,14 +32,25 @@ export default function NewTaskPage({ addTask }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title || !description || !selected) return;
+    if (!title || !description || !selected || !dueDate) {
+  alert("All fields are required");
+  return;
+}
 
-    const newTask = {
-      id: Date.now(),
-      title,
-      description,
-      tag: selected,
-    };
+const today = new Date().toISOString().split("T")[0];
+
+if (dueDate < today) {
+  alert("Due date cannot be in the past");
+  return;
+}
+
+const newTask = {
+  title,
+  description,
+  dueDate,
+  category: selected,
+  completed: false,
+};
 
     addTask(newTask);
 
@@ -95,6 +107,21 @@ export default function NewTaskPage({ addTask }) {
               />
             </fieldset>
           </div>
+
+          <div className="relative w-full">
+  <fieldset className="border border-gray-300 rounded-md px-3 pt-2 pb-3">
+    <legend className="text-gray-500 text-[15px] px-1">
+      Due Date
+    </legend>
+
+    <input
+      type="date"
+      value={dueDate}
+      onChange={(e) => setDueDate(e.target.value)}
+      className="w-full outline-none bg-transparent"
+    />
+  </fieldset>
+</div>
 
           <div className="relative w-full">
             <fieldset
