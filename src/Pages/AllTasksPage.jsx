@@ -49,9 +49,10 @@ export default function AllTasksPage({ tasks, deleteTask }) {
     <select
       value={categoryFilter}
       onChange={(e) => setCategoryFilter(e.target.value)}
-      className="border border-purple-600 w-[95px] py-1 px-1 rounded text-gray-500 mt-5"
+      className="border border-purple-600 w-[123px] py-1 px-1 rounded text-gray-500 mt-5"
     >
-    <option value="">Filter by:</option>
+    <option>Filter by:</option>
+    <option value="">All categories</option>
     <option value="Work">Work</option>
     <option value="Personal">Personal</option>
     <option value="Urgent">Urgent</option>
@@ -64,7 +65,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
 
           {filteredTasks.map((task) => (
             <div
-              key={task.id}
+              key={task._id}
               className="border border-[#B8B6B6] rounded-md py-3"
             >
               <div className="flex justify-between items-start px-3">
@@ -82,7 +83,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
 
                 <div className="flex gap-2">
                   <button
-                    onClick={() => navigate(`/edittask/${task.id}`)}
+                    onClick={() => navigate(`/edittask/${task._id}`)}
                     className="bg-[#974FD0] text-white text-[14px] font-medium px-3 py-1 rounded flex items-center gap-1"
                   >
                     <FaRegEdit /> <span>Edit</span>
@@ -90,7 +91,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
                   <button
                     onClick={() => {
                       if (window.confirm("Are you sure you want to delete this task?")) {
-                        deleteTask(task.id);
+                        deleteTask(task._id);
                       }
                     }}
                     className="border border-[#974FD0] text-[#974FD0] text-[14px] font-medium px-3 py-1 rounded flex items-center gap-1 cursor-pointer"

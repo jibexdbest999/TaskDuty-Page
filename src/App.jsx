@@ -6,29 +6,63 @@ import NewTaskPage from "./Pages/NewTaskPage";
 import AllTasksPage from "./Pages/AllTasksPage";
 import EditTaskPage from "./Pages/EditTaskPage";
 
+import {
+  getTasks,
+  createTask,
+  updateTask as updateTaskApi,
+  deleteTask as deleteTaskApi,
+} from "./api/taskApi";
+
 function App() {
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem("tasks");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    fetchTasks();
+  }, []);
 
-  const addTask = (task) => {
-    setTasks((prev) => [...prev, task]);
+  const fetchTasks = async () => {
+    try {
+      const res = await getTasks();
+      setTasks(res.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const deleteTask = (id) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
-  };
+  const addTask = async (task) => {
+    try {
+      const res = await createTask(task);
+      setTasks((prev) => [...prev, res.data]);
+    } catch (error) {
+      console.error(error)
+    }
+    };
 
-  const updateTask = (updatedTask) => {
-    setTasks((prev) =>
-      prev.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+  const deleteTask = async (id) => {
+    try {
+      await deleteTaskApi(id);
+
+      setTasks((prev) => 
+        prev.filter((task) => task.id !== id)
     );
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const updateTask = async (id, updatedTask) => {
+    try { 
+      const res = await updateTaskApi(id, updatedTask);
+
+      setTask((prev) =>
+        prev.map((task) =>
+          task._id === id ? res.data : task
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+    };
   return (
     <>
       <Routes>
