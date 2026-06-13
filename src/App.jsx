@@ -43,7 +43,7 @@ function App() {
       await deleteTaskApi(id);
 
       setTasks((prev) => 
-        prev.filter((task) => task.id !== id)
+        prev.filter((task) => task._id !== id)
     );
     } catch (error) {
       console.error(error);
@@ -54,7 +54,7 @@ function App() {
     try { 
       const res = await updateTaskApi(id, updatedTask);
 
-      setTask((prev) =>
+      setTasks((prev) =>
         prev.map((task) =>
           task._id === id ? res.data : task
         )

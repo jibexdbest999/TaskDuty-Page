@@ -49,7 +49,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
     <select
       value={categoryFilter}
       onChange={(e) => setCategoryFilter(e.target.value)}
-      className="border border-purple-600 w-[123px] py-1 px-1 rounded text-gray-500 mt-5"
+      className="border border-purple-600 w-[123px] py-1 px-0.5 rounded text-gray-500 mt-5 shadow-md"
     >
     <option>Filter by:</option>
     <option value="">All categories</option>
@@ -63,50 +63,52 @@ export default function AllTasksPage({ tasks, deleteTask }) {
             <p className="text-[#B8B6B6] text-center text-[25px] md:text-[35px]">No tasks yet.</p>
           )}
 
-          {filteredTasks.map((task) => (
-            <div
-              key={task._id}
-              className="border border-[#B8B6B6] rounded-md py-3"
-            >
-              <div className="flex justify-between items-start px-3">
-                <div>
-                  <p
-                    className={`text-[12px] font-medium px-2 py-1 rounded w-fit ${
-                      task.tag === "Urgent"
-                        ? "bg-[#ffff] text-[#F38383]"
-                        : "bg-[#ffff] text-[#73C3A6]"
-                    }`}
-                  >
-                    {task.tag}
-                  </p>
-                </div>
+        {filteredTasks.map((task) => (
+        <div
+          key={task._id}
+          className="border border-[#B8B6B6] rounded-xl py-4 px-4 bg-white shadow-sm"
+        >
+        <div className="flex justify-between items-start px-3">
+        <span
+          className={`inline-block text-[13px] font-semibold px-3 py-1.5 rounded-full w-fit ${
+          task.tag === "Urgent"
+            ? "b text-red-700"
+            : task.tag === "Work"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-emerald-100 text-emerald-700"
+        }`}
+        >
+          {task.tag}
+        </span>
 
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => navigate(`/edittask/${task._id}`)}
-                    className="bg-[#974FD0] text-white text-[14px] font-medium px-3 py-1 rounded flex items-center gap-1"
-                  >
-                    <FaRegEdit /> <span>Edit</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (window.confirm("Are you sure you want to delete this task?")) {
-                        deleteTask(task._id);
-                      }
-                    }}
-                    className="border border-[#974FD0] text-[#974FD0] text-[14px] font-medium px-3 py-1 rounded flex items-center gap-1 cursor-pointer"
-                  >
-                    <RiDeleteBinLine /> <span>Delete</span>
-                  </button>
-                </div>
-              </div>
-              <hr className="text-[#B8B6B6] mt-3" />
-              <div className="px-3 py-2">
-                <h3 className="font-semibold text-[20px]">{task.title}</h3>
-                <p className="text-[#887f7f] text-[16px]">{task.description}</p>
-              </div>
-            </div>
-          ))}
+      <div className="flex gap-2">
+        <button
+          onClick={() => navigate(`/edittask/${task._id}`)}
+          className="bg-[#974FD0] text-white text-[14px] font-medium px-4 py-1.5 rounded-lg flex items-center gap-1 hover:bg-[#8a45bd]"
+        >
+          <FaRegEdit /> <span>Edit</span>
+        </button>
+        <button
+          onClick={() => {
+            if (window.confirm("Are you sure you want to delete this task?")) {
+              deleteTask(task._id);
+            }
+          }}
+          className="border border-[#974FD0] text-[#974FD0] text-[14px] font-medium px-4 py-1.5 rounded-lg flex items-center gap-1 hover:bg-gray-50"
+        >
+          <RiDeleteBinLine /> <span>Delete</span>
+        </button>
+      </div>
+    </div>
+
+    <hr className="text-[#B8B6B6] my-3" />
+
+    <div className="px-3">
+      <h3 className="font-semibold text-[20px]">{task.title}</h3>
+      <p className="text-[#887f7f] text-[16px] mt-1">{task.description}</p>
+    </div>
+  </div>
+))}
         </div>
 
         <button 

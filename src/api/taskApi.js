@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/tasks";
+const API = "https://taskduty-server-qloc.onrender.com/tasks";
 
 export const getTasks = () => axios.get(API);
 

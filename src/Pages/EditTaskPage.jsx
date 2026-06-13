@@ -9,12 +9,13 @@ export default function EditTaskPage({ tasks, updateTask }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const options = ["Urgent", "Important"];
+  const options = ["Work", "Personal", "Urgent"];
   const [open, setOpen] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const [pageIsLoading, setPageIsLoading] = useState(true);
 
@@ -25,7 +26,7 @@ export default function EditTaskPage({ tasks, updateTask }) {
 
   useEffect(() => {
     if (!tasks) return;
-    const taskToEdit = tasks.find((task) => task.id.toString() === id);
+    const taskToEdit = tasks.find((task) => task._id.toString() === id);
 
     if (taskToEdit) {
       setTitle(taskToEdit.title);
@@ -39,22 +40,24 @@ export default function EditTaskPage({ tasks, updateTask }) {
     setOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!title || !description || !selected || isUpdating) return;
 
-    if (!title || !description || !selected) return;
+    setIsUpdating(true);
 
-    const updatedTask = {
-      id: Number(id),
-      title,
-      description,
-      tag: selected,
-    };
+  const updatedTask = { title, description, tag: selected };
 
-    updateTask(updatedTask);
-
+  try {
+    await updateTask(id, updatedTask);
     navigate("/mytask");
-  };
+  } catch (error) {
+    console.error("Update failed", error);
+    alert("Failed to update task");
+  } finally {
+    setIsUpdating(false);
+  }
+};
 
   if (pageIsLoading)
     return (
@@ -84,7 +87,7 @@ export default function EditTaskPage({ tasks, updateTask }) {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-7">
           <div className="relative w-full">
-            <fieldset className="border border-[#d1d5db] focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3">
+            <fieldset className="border border-[#d1d5db] focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3 shadow-sm">
               <legend className="text-[#6b7280] text-[15px] px-1">
                 Task Title
               </legend>
@@ -98,7 +101,7 @@ export default function EditTaskPage({ tasks, updateTask }) {
           </div>
 
           <div className="w-full">
-            <fieldset className="border border-[#d1d5db] focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3">
+            <fieldset className="border border-[#d1d5db] focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3 shadow-sm">
               <legend className="text-[#6b7280] text-[15px] px-1">
                 Description
               </legend>
@@ -113,7 +116,7 @@ export default function EditTaskPage({ tasks, updateTask }) {
           <div className="relative w-full">
             <fieldset
               onClick={() => setOpen(!open)}
-              className="border border-[#d1d5db] rounded-md px-3 pt-2 pb-3 cursor-pointer focus-within:border-[#974FD0] transition"
+              className="border border-[#d1d5db] rounded-md px-3 pt-2 pb-3 cursor-pointer focus-within:border-[#974FD0] transition shadow-sm"
             >
               <legend className="text-[#6b7280] text-[14px] px-1">Tags</legend>
 
@@ -146,9 +149,10 @@ export default function EditTaskPage({ tasks, updateTask }) {
 
           <button
             type="submit"
+            disabled={isUpdating}
             className="w-full bg-[#974FD0] rounded-md font-medium py-3 text-[#FAF9FB]"
           >
-            Done
+            {isUpdating ? "Updating..." : "Done"}
           </button>
         </form>
 

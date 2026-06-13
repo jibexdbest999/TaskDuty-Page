@@ -80,7 +80,7 @@ const newTask = {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-7">
           <div className="relative w-full">
-            <fieldset className="border border-gray-300 focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3">
+            <fieldset className="border border-gray-300 focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3 shadow-sm">
               <legend className="text-gray-500 text-[15px] px-1">
                 Task Title
               </legend>
@@ -95,7 +95,7 @@ const newTask = {
           </div>
 
           <div className="w-full">
-            <fieldset className="border border-gray-300 focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3">
+            <fieldset className="border border-gray-300 focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3 shadow-sm">
               <legend className="text-gray-500 text-[15px] px-1">
                 Description
               </legend>
@@ -109,7 +109,7 @@ const newTask = {
           </div>
 
           <div className="relative w-full">
-  <fieldset className="border border-gray-300 rounded-md px-3 pt-2 pb-3">
+  <fieldset className="border border-gray-300 rounded-md px-3 pt-2 pb-3 shadow-sm">
     <legend className="text-gray-500 text-[15px] px-1">
       Due Date
     </legend>
@@ -126,7 +126,7 @@ const newTask = {
           <div className="relative w-full">
             <fieldset
               onClick={() => setOpen(!open)}
-              className="border border-gray-300 rounded-md px-3 pt-2 pb-3 cursor-pointer focus-within:border-[#974FD0] transition"
+              className="border border-gray-300 rounded-md px-3 pt-2 pb-3 cursor-pointer focus-within:border-[#974FD0] transition shadow-sm"
             >
               <legend className="text-gray-500 text-sm px-1">Tags</legend>
 
