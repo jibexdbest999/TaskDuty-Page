@@ -49,7 +49,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
     <select
       value={categoryFilter}
       onChange={(e) => setCategoryFilter(e.target.value)}
-      className="border border-purple-600 w-[123px] py-1 px-0.5 rounded text-gray-500 mt-5 shadow-md"
+      className="border border-purple-600 w-[120px] py-1 px-0.5 rounded text-gray-500 mt-5 shadow-md"
     >
     <option>Filter by:</option>
     <option value="">All categories</option>
@@ -71,14 +71,16 @@ export default function AllTasksPage({ tasks, deleteTask }) {
         <div className="flex justify-between items-start px-3">
         <span
           className={`inline-block text-[13px] font-semibold px-3 py-1.5 rounded-full w-fit ${
-          task.tag === "Urgent"
-            ? "b text-red-700"
-            : task.tag === "Work"
+          task.category === "Urgent"
+            ? "bg-red-100 text-red-700"
+            : task.category === "Work"
             ? "bg-blue-100 text-blue-700"
-            : "bg-emerald-100 text-emerald-700"
+            : task.category === "Personal"
+            ? "bg-emerald-100 text-emerald-700"
+            : "bg-gray-100 text-gray-700"
         }`}
         >
-          {task.tag}
+          {task.category}
         </span>
 
       <div className="flex gap-2">
