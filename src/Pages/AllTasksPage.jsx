@@ -86,7 +86,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
       <div className="flex gap-2">
         <button
           onClick={() => navigate(`/edittask/${task._id}`)}
-          className="bg-[#974FD0] text-white text-[14px] font-medium px-4 py-1.5 rounded-lg flex items-center gap-1 hover:bg-[#8a45bd]"
+          className="bg-[#974FD0] text-white text-[14px] font-medium px-3 py-1.5 ml-1 rounded-lg flex items-center gap-1 hover:bg-[#8a45bd]"
         >
           <FaRegEdit /> <span>Edit</span>
         </button>
@@ -96,7 +96,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
               deleteTask(task._id);
             }
           }}
-          className="border border-[#974FD0] text-[#974FD0] text-[14px] font-medium px-4 py-1.5 rounded-lg flex items-center gap-1 hover:bg-gray-50"
+          className="border border-[#974FD0] text-[#974FD0] text-[14px] font-medium px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-gray-50"
         >
           <RiDeleteBinLine /> <span>Delete</span>
         </button>

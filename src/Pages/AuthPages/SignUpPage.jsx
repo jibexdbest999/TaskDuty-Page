@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -220,7 +219,7 @@ export default function SignUpPage() {
                             />
                         </fieldset>
                         <button type="button" onClick={toggleShowConfirmPassword} className="absolute top-1/2 right-3 text-gray-500 cursor-pointer">{ showConfirmPassword ? <FaRegEye /> :  <FaRegEyeSlash />  }</button>
-                        <button className="absolute top-1/2 right-3 text-gray-500 cursor-pointer"></button>
+                        
                     </div>
                     { errors.confirmPassword && <p className="text-red-600 font-semibold">{errors.confirmPassword}</p> }
 
