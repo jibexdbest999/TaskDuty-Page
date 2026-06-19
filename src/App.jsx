@@ -5,6 +5,9 @@ import HomePage from "./Pages/HomePage";
 import NewTaskPage from "./Pages/NewTaskPage";
 import AllTasksPage from "./Pages/AllTasksPage";
 import EditTaskPage from "./Pages/EditTaskPage";
+import SignUpPage from "./Pages/AuthPages/SignUpPage";
+import LoginPage from "./Pages/AuthPages/LoginPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 import {
   getTasks,
@@ -17,7 +20,11 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    fetchTasks();
+    const token = localStorage.getItem("token");
+    
+    if (token) {
+      fetchTasks();
+    }
   }, []);
 
   const fetchTasks = async () => {
@@ -67,12 +74,14 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/newtask" element={<NewTaskPage addTask={addTask} />} />
+        <Route path="/newtask" element={<ProtectedRoute> <NewTaskPage addTask={addTask} /> </ProtectedRoute>} />
         <Route
           path="/mytask"
-          element={<AllTasksPage tasks={tasks} deleteTask={deleteTask} />}
+          element={<ProtectedRoute> <AllTasksPage tasks={tasks} deleteTask={deleteTask} /> </ProtectedRoute>}
         />
-        <Route path="/edittask/:id" element={<EditTaskPage tasks={tasks} updateTask={updateTask} />} />
+        <Route path="/edittask/:id" element={<ProtectedRoute> <EditTaskPage tasks={tasks} updateTask={updateTask} /> </ProtectedRoute>} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </>
   );

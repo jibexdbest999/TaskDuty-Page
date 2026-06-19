@@ -1,8 +1,26 @@
 import React from "react";
 import AddTaskImage from "../assets/AddTaskImage.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast"
 
 export default function Body() {
+    const navigate = useNavigate();
+
+const handleGoToTasks = () => {
+  const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("You must login first");
+
+      setTimeout(() => {
+      navigate("/login");
+      }, 2000); 
+
+      return;
+    }
+    navigate("/mytask");
+  };
+
   return (
     <div className="flex flex-col md:flex container mx-auto my-7 md:my-15 items-center">
       <div className="md:hidden pb-5">
@@ -20,9 +38,11 @@ export default function Body() {
           tempus duis non eget. Hendrerit tortor fermentum bibendum mi nisl
           semper porttitor. Nec accumsan.
         </p>
-        <Link to="/mytask" className="bg-[#974FD0] hover:bg-[#46146e] rounded-md font-medium text-[20px] text-center px-2 py-2 text-[#FAF9FB] w-45 cursor-pointer ">
+        <button
+          onClick={handleGoToTasks}
+          className="bg-[#974FD0] hover:bg-[#46146e] rounded-md font-medium text-[20px] text-center px-2 py-2 text-[#FAF9FB] w-45 cursor-pointer ">
           Go to My Tasks
-        </Link>
+        </button>
       </div>
 
       <div className="hidden md:block">

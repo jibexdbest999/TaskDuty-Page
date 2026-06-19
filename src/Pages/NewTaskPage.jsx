@@ -109,19 +109,19 @@ const newTask = {
           </div>
 
           <div className="relative w-full">
-  <fieldset className="border border-gray-300 rounded-md px-3 pt-2 pb-3 shadow-sm">
-    <legend className="text-gray-500 text-[15px] px-1">
-      Due Date
-    </legend>
+            <fieldset className="border border-gray-300 rounded-md px-3 pt-2 pb-3 shadow-sm">
+              <legend className="text-gray-500 text-[15px] px-1">
+                Due Date
+              </legend>
 
-    <input
-      type="date"
-      value={dueDate}
-      onChange={(e) => setDueDate(e.target.value)}
-      className="w-full outline-none bg-transparent"
-    />
-  </fieldset>
-</div>
+              <input
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                className="w-full outline-none bg-transparent"
+              />
+            </fieldset>
+          </div>
 
           <div className="relative w-full">
             <fieldset
