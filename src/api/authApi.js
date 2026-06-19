@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/auth";
+const API = "https://taskduty-server-qloc.onrender.com/auth";
 
 export const loginUsers = (userData) =>
   axios.post(`${API}/login`, userData);
