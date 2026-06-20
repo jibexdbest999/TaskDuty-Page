@@ -41,6 +41,15 @@ export default function NavBar() {
     {/* ------------------------------------------------------------------- */}
     <div className="hidden md:flex gap-10 items-center">
 
+      {location.pathname !== "/" && (
+        <NavLink
+          className="text-[#292929] text-[16px] font-medium"
+          to="/"
+        >
+          Home
+        </NavLink>
+      )}
+
       {location.pathname !== "/newtask" && (
         <NavLink
           className="text-[#292929] text-[16px] font-medium"
@@ -67,7 +76,7 @@ export default function NavBar() {
           <span className="w-8 h-8 rounded-full border-2 border-black text-[#974FD0]"><FaUserCircle size={28}/></span>
 
           <span className="text-sm">
-            Hi👋 {user?.firstName}
+            Hello👋 {user?.firstName}
           </span>
         </button>
 
@@ -125,9 +134,15 @@ export default function NavBar() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
 
           <Link to="/profile" className="text-gray-600">My Profile</Link>
+
+          <NavLink
+            to="/"
+          >
+            Home
+          </NavLink>
 
           <NavLink
             to="/newtask"

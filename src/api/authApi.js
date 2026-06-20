@@ -18,3 +18,12 @@ export const updateProfile = (userData) =>
       },
     }
   );
+
+export const changePassword = (passwordData) =>
+  axios.put(`${API}/change-password`, passwordData,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
