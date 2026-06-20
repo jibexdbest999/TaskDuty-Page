@@ -8,6 +8,7 @@ import EditTaskPage from "./Pages/EditTaskPage";
 import SignUpPage from "./Pages/AuthPages/SignUpPage";
 import LoginPage from "./Pages/AuthPages/LoginPage";
 import ProtectedRoute from "./ProtectedRoute";
+import ProfilePage from "./Pages/ProfilePage";
 
 import {
   getTasks,
@@ -82,6 +83,7 @@ function App() {
         <Route path="/edittask/:id" element={<ProtectedRoute> <EditTaskPage tasks={tasks} updateTask={updateTask} /> </ProtectedRoute>} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </>
   );

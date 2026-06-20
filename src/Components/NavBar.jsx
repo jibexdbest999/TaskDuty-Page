@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import TaskDutyLogo from "../assets/TaskDutyLogo.png";
-import {  NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link,  NavLink, useLocation, useNavigate } from "react-router-dom";
 import TaskDutyDp from "../assets/TaskDutyDp.jpg"
+import { FaUserCircle } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { toast } from "react-hot-toast"
@@ -63,11 +64,7 @@ export default function NavBar() {
           onClick={() => setShowDropdown(!showDropdown)}
           className="flex flex-col items-center cursor-pointer"
         >
-          <img
-            className="w-8 h-8 rounded-full border-2"
-            src={TaskDutyDp}
-            alt=""
-          />
+          <span className="w-8 h-8 rounded-full border-2 border-black text-[#974FD0]"><FaUserCircle size={28}/></span>
 
           <span className="text-sm">
             Hi👋 {user?.firstName}
@@ -75,10 +72,11 @@ export default function NavBar() {
         </button>
 
         {showDropdown && (
-          <div className="absolute mt-2 bg-white shadow-md rounded-md border border-[#974FD0] w-30 z-50">
+          <div className="absolute flex flex-col gap-1 mt-2 bg-white shadow-md rounded-md px-2 py-2 border border-[#974FD0] w-30 z-50">
+            <Link to="/profile" className="text-gray-600 text-[15px]">My Profile</Link>
             <button
               onClick={handleLogout}
-              className="flex border border-[#974FD0] items-center rounded-md w-full text-red-600 text-[15px] text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="flex items-center rounded-md w-full text-red-600 text-[15px] text-left py-2 hover:bg-gray-100 cursor-pointer"
             >
               <span><MdOutlineLogout size={25}/></span>
               Logout
@@ -93,7 +91,7 @@ export default function NavBar() {
       <button
         onClick={() => setShowMobileMenu(true)}
       >
-        <HiOutlineMenuAlt3 size={28} />
+        <HiOutlineMenuAlt3 size={30} />
       </button>
     </div>
 
@@ -116,18 +114,20 @@ export default function NavBar() {
         </div>
 
         <div className="flex items-center gap-2 mt-4 mb-4">
-          <img
-            className="w-10 h-10 rounded-full border-2"
-            src={TaskDutyDp}
-            alt=""
-          />
-
-          <span className="font-medium text-[15px]">
-            Hi👋 {user?.firstName}
+          <span 
+            className="w-12 h-12 rounded-full border-2 border-black text-[#974FD0]"
+          >
+            <FaUserCircle size={44}/>
           </span>
+
+          <p className="flex flex-col font-medium text-[13px]">
+            Hello👋 <span>{user?.firstName}</span>
+          </p>
         </div>
 
         <div className="flex flex-col gap-5">
+
+          <Link to="/profile" className="text-gray-600">My Profile</Link>
 
           <NavLink
             to="/newtask"

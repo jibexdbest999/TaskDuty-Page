@@ -7,3 +7,14 @@ export const loginUsers = (userData) =>
 
 export const signupUsers = (userData) =>
   axios.post(`${API}/signup`, userData);
+
+export const updateProfile = (userData) =>
+  axios.put(`${API}/profile`, userData,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(
+          "token"
+        )}`,
+      },
+    }
+  );
