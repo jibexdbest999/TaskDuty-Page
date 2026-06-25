@@ -18,3 +18,13 @@ export const updateTask = (id, task) =>
 
 export const deleteTask = (id) =>
   axios.delete(`${API}/${id}`, getAuthHeaders());
+
+export const getTrashTasks = () =>
+  axios.get(`${API}/trash`, getAuthHeaders());
+
+export const restoreTaskApi = (id) =>
+  axios.put(`${API}/restore/${id}`, {}, getAuthHeaders());
+
+export const deleteTaskPermanentApi = (id) =>
+  axios.delete(`${API}/permanentDelete/${id}`, getAuthHeaders()
+);

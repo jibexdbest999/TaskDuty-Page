@@ -7,6 +7,7 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { toast } from "react-hot-toast"
 import { MdOutlineLogout } from "react-icons/md";
+import { BsFillTrash3Fill } from "react-icons/bs";
 
 export default function NavBar() {
   const location = useLocation()
@@ -156,6 +157,14 @@ export default function NavBar() {
             onClick={() => setShowMobileMenu(false)}
           >
             All Tasks
+          </NavLink>
+
+          <NavLink
+            to="/trash"
+            onClick={() => setShowMobileMenu(false)}
+            className="flex items-center gap-1 text-gray-500"
+          >
+            <span><BsFillTrash3Fill/></span>Trash
           </NavLink>
 
           <button

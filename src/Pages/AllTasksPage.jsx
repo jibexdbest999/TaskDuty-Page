@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { HashLoader } from "react-spinners"
+import { BsFillTrash3Fill } from "react-icons/bs";
 
 export default function AllTasksPage({ tasks, deleteTask }) {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ export default function AllTasksPage({ tasks, deleteTask }) {
         </button>
         <button
           onClick={() => {
-            if (window.confirm("Are you sure you want to delete this task?")) {
+            if (window.confirm("Are you sure you want to move task to trash?")) {
               deleteTask(task._id);
             }
           }}
@@ -108,14 +109,24 @@ export default function AllTasksPage({ tasks, deleteTask }) {
     <div className="px-3">
       <h3 className="font-semibold text-[20px]">{task.title}</h3>
       <p className="text-[#887f7f] text-[16px] mt-1">{task.description}</p>
+      <p className="text-gray-500 text-sm mt-2">
+          Due: {new Date(task.dueDate).toLocaleDateString()}
+      </p>
     </div>
   </div>
 ))}
         </div>
 
+        <Link
+          to="/trash"
+          className="hidden md:flex items-center border-2 border-red-500 w-fit px-2 py-1.5 rounded-md text-red-500 font-medium my-3"
+        >
+          <span><BsFillTrash3Fill/></span> Trash
+        </Link>
+
         <button 
         onClick={scrollToTop}
-        className="text-[#974FD0] mt-5">Back To Top</button>
+        className="text-[#974FD0] my-3">Back To Top</button>
       </div>
     </div>
   );

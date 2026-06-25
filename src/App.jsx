@@ -9,22 +9,28 @@ import SignUpPage from "./Pages/AuthPages/SignUpPage";
 import LoginPage from "./Pages/AuthPages/LoginPage";
 import ProtectedRoute from "./ProtectedRoute";
 import ProfilePage from "./Pages/ProfilePage";
+import TrashPage from "./Pages/TrashPage";
 
 import {
   getTasks,
   createTask,
   updateTask as updateTaskApi,
   deleteTask as deleteTaskApi,
+  getTrashTasks,
+  restoreTaskApi,
+  deleteTaskPermanentApi,
 } from "./api/taskApi";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [trashedTasks, setTrashedTasks] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     
     if (token) {
       fetchTasks();
+      fetchTrashTasks();
     }
   }, []);
 
@@ -53,6 +59,7 @@ function App() {
       setTasks((prev) => 
         prev.filter((task) => task._id !== id)
     );
+      fetchTrashTasks();
     } catch (error) {
       console.error(error);
     }
@@ -71,6 +78,39 @@ function App() {
       console.error(error);
     }
     };
+
+  const fetchTrashTasks = async () => {
+    try {
+      const res = await getTrashTasks();
+      setTrashedTasks(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const restoreTask = async (id) => {
+    try {
+      await restoreTaskApi(id);
+
+      fetchTasks();
+      fetchTrashTasks();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteTaskPermanent = async (id) => {
+    try {
+      await deleteTaskPermanentApi(id);
+
+      setTrashedTasks((prev) =>
+        prev.filter((task) => task._id !== id)
+      );
+    } catch (error) {
+    console.error(error);
+    }
+  };
+
   return (
     <>
       <Routes>
@@ -84,6 +124,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/trash" element={<ProtectedRoute><TrashPage trashedTasks={trashedTasks} restoreTask={restoreTask} deleteTaskPermanent={deleteTaskPermanent} /></ProtectedRoute>} />
       </Routes>
     </>
   );
