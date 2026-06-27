@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -7,6 +6,7 @@ import { RotateLoader } from "react-spinners";
 import { HashLoader } from "react-spinners";
 import { loginUsers } from "../../api/authApi";
 import { toast } from "react-hot-toast";
+
 
 const loginUser = {
     identifier: "",
@@ -139,14 +139,14 @@ export default function LoginPage() {
                     </div>
                      { errors.password && <p className="text-red-600 font-semibold mt-[-10px]">{errors.password }</p> }
 
-                    <button
+                        <button
                         type="submit"
                         className="w-full bg-[#974FD0] hover:bg-[#44037a] rounded-md cursor-pointer font-medium py-2.5 text-[#FAF9FB]">
                         { isLoading ? <RotateLoader color="#aa7bf6" margin={-15} size={8} speedMultiplier={1} /> : "Login" }
-                    </button>  
+                        </button>  
                 </form>
-                <p className="py-2 text-center">Don't have an account yet? <Link to="/signup" className="text-[#974FD0] underline hover:text-[#44037a] font-medium ml-1">Signup here</Link></p>
-                <Link to="/" className="absolute top-2 right-2 text-[#974FD0] hover:text-[#44037a]"><IoClose size={30}/></Link>
+                        <p className="py-2 text-center">Don't have an account yet? <Link to="/signup" className="text-[#974FD0] underline hover:text-[#44037a] font-medium ml-1">Signup here</Link></p>
+                        <Link to="/" className="absolute top-2 right-2 text-[#974FD0] hover:text-[#44037a]"><IoClose size={30}/></Link>
             </div>
         </div>
     )

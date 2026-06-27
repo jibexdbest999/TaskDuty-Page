@@ -26,7 +26,7 @@ export default function NavBar() {
 
   toast.success("Logged out successfully");
 
-  navigate("/login");
+  navigate("/");
   };
 
   return (

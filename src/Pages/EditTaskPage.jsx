@@ -14,6 +14,7 @@ export default function EditTaskPage({ tasks, updateTask }) {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [selected, setSelected] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -31,7 +32,13 @@ export default function EditTaskPage({ tasks, updateTask }) {
     if (taskToEdit) {
       setTitle(taskToEdit.title);
       setDescription(taskToEdit.description);
-      setSelected(taskToEdit.tag);
+      setSelected(taskToEdit.category);
+
+      setDueDate(
+        taskToEdit.dueDate
+        ? taskToEdit.dueDate.split("T")[0]
+        : ""
+      );
     }
   }, [id, tasks]);
 
@@ -42,11 +49,11 @@ export default function EditTaskPage({ tasks, updateTask }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !description || !selected || isUpdating) return;
+    if (!title || !description || !selected || !dueDate || isUpdating) return;
 
     setIsUpdating(true);
 
-  const updatedTask = { title, description, tag: selected };
+  const updatedTask = { title, description, category: selected, dueDate };
 
   try {
     await updateTask(id, updatedTask);
@@ -110,6 +117,21 @@ export default function EditTaskPage({ tasks, updateTask }) {
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full outline-none text-[17px] bg-transparent"
               />
+            </fieldset>
+          </div>
+
+          <div className="relative w-full">
+            <fieldset className="border border-[#d1d5db] focus-within:border-[#974FD0] rounded-md px-3 pt-2 pb-3 shadow-sm">
+              <legend className="text-[#6b7280] text-[15px] px-1">
+                Due Date
+              </legend>
+
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  className="w-full outline-none text-sm bg-transparent"
+                />
             </fieldset>
           </div>
 

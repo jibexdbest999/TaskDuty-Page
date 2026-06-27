@@ -10,6 +10,8 @@ import LoginPage from "./Pages/AuthPages/LoginPage";
 import ProtectedRoute from "./ProtectedRoute";
 import ProfilePage from "./Pages/ProfilePage";
 import TrashPage from "./Pages/TrashPage";
+import AutoLogout from "./Components/AutoLogout";
+import { toast } from "react-hot-toast"
 
 import {
   getTasks,
@@ -25,6 +27,8 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [trashedTasks, setTrashedTasks] = useState([]);
 
+  const [pageIsLoading, setPageIsLoading] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     
@@ -36,10 +40,14 @@ function App() {
 
   const fetchTasks = async () => {
     try {
+      setPageIsLoading(true)
+
       const res = await getTasks();
       setTasks(res.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setPageIsLoading(false)
     }
   };
 
@@ -60,8 +68,10 @@ function App() {
         prev.filter((task) => task._id !== id)
     );
       fetchTrashTasks();
+      toast.success("Task moved to trash🗑️");
     } catch (error) {
       console.error(error);
+      toast.error("Failed to move task to trash");
     }
   };
 
@@ -74,17 +84,23 @@ function App() {
           task._id === id ? res.data : task
         )
       );
+      toast.success("Task has been updated!✅");
     } catch (error) {
       console.error(error);
+      toast.error("Failed to update task!");
     }
     };
 
   const fetchTrashTasks = async () => {
     try {
+      setPageIsLoading(true)
+
       const res = await getTrashTasks();
       setTrashedTasks(res.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setPageIsLoading(false)
     }
   };
 
@@ -94,8 +110,10 @@ function App() {
 
       fetchTasks();
       fetchTrashTasks();
+      toast.success("Task has been restored!♻️")
     } catch (error) {
       console.error(error);
+      toast.error("Failed to restore task!");
     }
   };
 
@@ -106,25 +124,28 @@ function App() {
       setTrashedTasks((prev) =>
         prev.filter((task) => task._id !== id)
       );
+      toast.success("Task has been permanently deleted!🗑️");
     } catch (error) {
-    console.error(error);
+      console.error(error);
+      toast.error("Failed to permanently delete task");
     }
   };
 
   return (
     <>
+      <AutoLogout />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/newtask" element={<ProtectedRoute> <NewTaskPage addTask={addTask} /> </ProtectedRoute>} />
         <Route
           path="/mytask"
-          element={<ProtectedRoute> <AllTasksPage tasks={tasks} deleteTask={deleteTask} /> </ProtectedRoute>}
+          element={<ProtectedRoute> <AllTasksPage tasks={tasks} deleteTask={deleteTask} pageIsLoading={pageIsLoading} /> </ProtectedRoute>}
         />
         <Route path="/edittask/:id" element={<ProtectedRoute> <EditTaskPage tasks={tasks} updateTask={updateTask} /> </ProtectedRoute>} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/trash" element={<ProtectedRoute><TrashPage trashedTasks={trashedTasks} restoreTask={restoreTask} deleteTaskPermanent={deleteTaskPermanent} /></ProtectedRoute>} />
+        <Route path="/trash" element={<ProtectedRoute><TrashPage trashedTasks={trashedTasks} restoreTask={restoreTask} deleteTaskPermanent={deleteTaskPermanent} pageIsLoading={pageIsLoading} /></ProtectedRoute>} />
       </Routes>
     </>
   );

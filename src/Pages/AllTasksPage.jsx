@@ -1,26 +1,28 @@
-import React, {useState, useEffect} from "react";
+import React, { useState } from "react";
 import NavBar from "../Components/NavBar";
+import SkeletonTask from "../Components/SkeletonTask";
 import { IoMdAdd } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
-import { HashLoader } from "react-spinners"
 import { BsFillTrash3Fill } from "react-icons/bs";
 
-export default function AllTasksPage({ tasks, deleteTask }) {
+export default function AllTasksPage({ tasks, deleteTask, pageIsLoading }) {
   const navigate = useNavigate();
   const [categoryFilter, setCategoryFilter] = useState("");
-  const [pageIsLoading, setPageIsLoading] = useState(true);
   
-    useEffect(() => {
-      const timer = setTimeout(() => setPageIsLoading(false), 2000);
-      return () => clearTimeout(timer);
-    }, []);
-  
-    if (pageIsLoading) return <div className='flex flex-col mx-auto items-center justify-center h-screen'>
-        <HashLoader color="#974FD0" size={55} />
-        <p className='text-[18px] lg:text-[30px] pt-2 font-semibold text-[#974FD0]'>Loading...</p>
-      </div>
+    if (pageIsLoading)
+      return (
+        <div>
+          <NavBar />
+
+          <div className="container mx-auto px-5 mt-6 flex flex-col gap-6">
+            {[...Array(5)].map((_, index) => (
+              <SkeletonTask key={index} />
+            ))}
+          </div>
+        </div>
+    );
 
   const filteredTasks = tasks.filter((task) => {
     if (!categoryFilter) return true;
@@ -112,14 +114,14 @@ export default function AllTasksPage({ tasks, deleteTask }) {
       <p className="text-gray-500 text-sm mt-2">
           Due: {new Date(task.dueDate).toLocaleDateString()}
       </p>
+      </div>
     </div>
-  </div>
-))}
+    ))}
         </div>
 
         <Link
           to="/trash"
-          className="hidden md:flex items-center border-2 border-red-500 w-fit px-2 py-1.5 rounded-md text-red-500 font-medium my-3"
+          className="hidden md:flex ml-auto mr-1 items-center border-2 border-red-500 w-fit px-2 py-1.5 rounded-md text-red-500 font-medium my-3"
         >
           <span><BsFillTrash3Fill/></span> Trash
         </Link>

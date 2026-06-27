@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import AddTaskImage from "../assets/AddTaskImage.png";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast"
 
 export default function Body() {
     const navigate = useNavigate();
+
+    const [ imageLoaded, setImageLoaded ] = useState(false);
 
 const handleGoToTasks = () => {
   const token = localStorage.getItem("token");
@@ -23,8 +25,20 @@ const handleGoToTasks = () => {
 
   return (
     <div className="flex flex-col md:flex container mx-auto my-7 md:my-15 items-center">
-      <div className="md:hidden pb-5">
-        <img className="px-5 w-80 container mx-auto" src={AddTaskImage} alt="" />
+      <div className="md:hidden pb-5 relative">
+        {!imageLoaded && (
+          <div className="w-80 h-60 bg-gray-200 animate-pulse rounded-lg"></div>
+        )}
+
+          <img
+            loading="lazy"
+            src={AddTaskImage}
+            alt="Task illustration"
+            onLoad={() => setImageLoaded(true)}
+            className={`px-5 w-80 container mx-auto transition-opacity duration-500 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
       </div>
      
      <div className="flex gap-5 px-3 md:px-10">
@@ -45,8 +59,20 @@ const handleGoToTasks = () => {
         </button>
       </div>
 
-      <div className="hidden md:block">
-        <img className="w-350 h-85" src={AddTaskImage} alt="" />
+      <div className="hidden md:block relative">
+        {!imageLoaded && (
+          <div className="absolute inset-0 w-350 h-85 bg-gray-200 animate-pulse rounded-lg"></div>
+        )}
+
+          <img
+            loading="lazy"
+            src={AddTaskImage}
+            alt="Task illustration"
+            onLoad={() => setImageLoaded(true)}
+            className={`w-350 h-85 transition-opacity duration-500 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
       </div>
      </div>
     </div>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import NavBar from "../Components/NavBar";
-import { HashLoader } from "react-spinners";
+import SkeletonTask from "../Components/SkeletonTask";
 import { MdOutlineRestore } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { BsFillTrash3Fill } from "react-icons/bs";
@@ -8,25 +8,23 @@ import { BsFillTrash3Fill } from "react-icons/bs";
 export default function TrashPage({
   trashedTasks = [],
   restoreTask,
-  deleteTaskPermanent
+  deleteTaskPermanent,
+  pageIsLoading
 }) {
 
-    const [pageIsLoading, setPageIsLoading] = useState(true);
     const [categoryFilter, setCategoryFilter] = useState("");
-    
-        useEffect(() => {
-            const timer = setTimeout(() => setPageIsLoading(false), 2000);
-            return () => clearTimeout(timer);
-          }, []);
 
         if (pageIsLoading)
-              return (
-                <div className="flex flex-col mx-auto items-center justify-center h-screen">
-                  <HashLoader color="#974FD0" size={55} />
-                  <p className="text-[18px] lg:text-[30px] pt-2 font-semibold text-[#974FD0]">
-                    Loading...
-                  </p>
+          return (
+            <div>
+              <NavBar />
+
+                <div className="container mx-auto px-5 mt-6 flex flex-col gap-6">
+                  {[...Array(5)].map((_, index) => (
+                    <SkeletonTask key={index} />
+                  ))}
                 </div>
+            </div>
         );
 
     const filteredTasks = trashedTasks.filter((task) => {
@@ -90,7 +88,15 @@ export default function TrashPage({
 
                 <div className="flex gap-2">
                   <button
-                    onClick={() => restoreTask(task._id)}
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to restore this task?"
+                        )
+                      ) {
+                         restoreTask(task._id);
+                      }
+                    }}
                     className="bg-green-600 w-fit h-fit text-white text-[14px] font-medium px-1.5 md:px-3 py-1.5 rounded-lg flex items-center md:gap-1 hover:bg-green-700"
                   >
                     <MdOutlineRestore />
